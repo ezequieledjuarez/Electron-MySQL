@@ -25,11 +25,41 @@ async function createProduct(product){
 async function getProducts(){
     const con = await getConnection()
 
-    const results = con.query('SELECT * FROM products')
+    const results = con.query('SELECT * FROM products ORDER BY id DESC')
 
     console.log(results)
     return results
 }  
+
+async function deleteProduct(id){
+    const con = await getConnection()
+
+    const result = await con.query('DELETE FROM products WHERE id = ?', id)
+
+    console.log(result)
+
+    return result
+}
+
+async function editProduct(id){
+
+}
+
+async function getProductById(id){
+    const con = await getConnection()
+
+    const result = await con.query('SELECT * FROM products WHERE id = ?', id)
+
+    return result[0]
+}
+
+async function updateProduct(id, product){
+    const con = await getConnection()
+
+    const result = await con.query('UPDATE products SET ? WHERE id = ?', [product, id])
+
+    console.log(result)
+}
 
 let window
 
@@ -48,5 +78,8 @@ function createWindow(){
 module.exports = {
     createWindow,
     createProduct,
-    getProducts
+    getProducts,
+    deleteProduct,
+    getProductById,
+    updateProduct
 }
